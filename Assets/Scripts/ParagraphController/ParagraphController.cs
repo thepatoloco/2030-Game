@@ -126,9 +126,4 @@ public class ParagraphController : MonoBehaviour
         addMissingLetters(missingLetters);
         return allIncorrectLetters.Length <= 0;
     }
-
-    public void submit()
-    {
-        if (checkCorrect()) Debug.Log("Correct answer!");
-    }
 }
