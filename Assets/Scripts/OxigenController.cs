@@ -8,11 +8,13 @@ public class OxigenController : RiskSubject
     [SerializeField]
     private float breathDuration = 5f;
     [SerializeField]
+    private float rechargePunish = 0.7f;
+    [SerializeField]
     private RectTransform barTransform;
 
     private float barBaseWidth;
     private float breathLevel = 1f;
-
+    private float rechargeMultiplier = 1f;
     private bool buttonHold = false;
     private bool canHold = true;
 
@@ -36,7 +38,7 @@ public class OxigenController : RiskSubject
         }
         else if (breathLevel < 1f)
         {
-            breathLevel += Time.deltaTime / breathDuration;
+            breathLevel += (Time.deltaTime / breathDuration) * rechargeMultiplier;
 
             if (breathLevel > 1f) breathLevel = 1f;
         }
@@ -53,6 +55,7 @@ public class OxigenController : RiskSubject
     IEnumerator cantHoldTimer()
     {
         canHold = false;
+        rechargeMultiplier = rechargePunish;
         notify();
 
         while (breathLevel < 1f)
@@ -61,6 +64,7 @@ public class OxigenController : RiskSubject
         }
 
         canHold = true;
+        rechargeMultiplier = 1f;
         notify();
         breathLevel = 1f;
     }

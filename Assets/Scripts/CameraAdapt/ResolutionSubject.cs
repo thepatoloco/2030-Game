@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ResolutionSubject : MonoBehaviour, Subject
 {
+    public static ResolutionSubject singleton;
+
     [SerializeField]
     private RectTransform canvas;
 
@@ -11,6 +13,16 @@ public class ResolutionSubject : MonoBehaviour, Subject
     private Vector2 canvasSize = new Vector2();
 
     private List<Observer> observers = new List<Observer>();
+
+    private void Awake()
+    {
+        if (singleton != null)
+        {
+            Destroy(this);
+            return;
+        }
+        singleton = this;
+    }
 
     private void Start()
     {
@@ -57,10 +69,5 @@ public class ResolutionSubject : MonoBehaviour, Subject
     public int[] getResolution()
     {
         return resolution;
-    }
-
-    public Vector2 getCanvasSize()
-    {
-        return canvasSize;
     }
 }

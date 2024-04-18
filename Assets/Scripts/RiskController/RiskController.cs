@@ -9,8 +9,10 @@ class RiskModifier
     public int riskModifier;
 }
 
-public class RiskController : MonoBehaviour, Observer
+public class RiskController : MonoBehaviour, Observer, Subject
 {
+    public static RiskController singleton;
+
     [SerializeField]
     private GameObject[] riskLevels;
     [SerializeField]
@@ -19,16 +21,29 @@ public class RiskController : MonoBehaviour, Observer
     private RiskModifier[] riskModifiers = new RiskModifier[0];
 
     private int riskLevel = 1;
+    private List<Observer> observers = new List<Observer>();
 
 
     private void Awake()
     {
+        if (singleton != null)
+        {
+            Destroy(this);
+            return;
+        }
+        singleton = this;
+
         foreach (RiskModifier riskmod in riskModifiers)
         {
             riskmod.riskSubject.subscribe(this);
         }
 
         calcRiskLevel();
+    }
+
+    private void Start()
+    {
+        notify();
     }
 
 
@@ -46,6 +61,7 @@ public class RiskController : MonoBehaviour, Observer
         riskLevel = newRiskLevel;
 
         showRiskLevel();
+        notify();
     }
 
     public void showRiskLevel()
@@ -56,9 +72,32 @@ public class RiskController : MonoBehaviour, Observer
         }
     }
 
+    public int getRiskLevel()
+    {
+        return riskLevel;
+    }
+
 
     public void updated(Subject subject)
     {
         calcRiskLevel();
+    }
+
+    public void subscribe(Observer observer)
+    {
+        observers.Add(observer);
+    }
+
+    public void unsubscribe(Observer observer)
+    {
+        observers.Remove(observer);
+    }
+
+    public void notify()
+    {
+        foreach (Observer obs in observers)
+        {
+            obs.updated(this);
+        }
     }
 }
