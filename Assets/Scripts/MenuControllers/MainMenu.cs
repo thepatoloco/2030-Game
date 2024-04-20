@@ -15,30 +15,19 @@ public class MainMenu : MonoBehaviour
     public GameObject backButton;
     public GameObject creditsName1;
     public GameObject creditsName2;
+    public GameObject creditsName3;
 
     private string selectedDifficulty;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Ocultar botones de dificultad e inicio
-        difficultyButton1.SetActive(false);
-        difficultyButton2.SetActive(false);
-        difficultyButton3.SetActive(false);
-        backButton.SetActive(false);
-        creditsName1.SetActive(false); 
-        creditsName2.SetActive(false);
-    }
-
     public void PlayGame()
     {
-        // Mostrar botones de dificultad
+        // Mostrar botones
         difficultyButton1.SetActive(true);
         difficultyButton2.SetActive(true);
         difficultyButton3.SetActive(true);
         backButton.SetActive(true);
 
-        // Ocultar botones de inicio
+        // Ocultar botones
         playButton.SetActive(false);
         creditsButton.SetActive(false);
         quitButton.SetActive(false);
@@ -46,15 +35,16 @@ public class MainMenu : MonoBehaviour
 
     public void BackButton()
     {
-        // Ocultar botones de dificultad
+        // Ocultar botones
         difficultyButton1.SetActive(false);
         difficultyButton2.SetActive(false);
         difficultyButton3.SetActive(false);
         backButton.SetActive(false);
         creditsName1.SetActive(false);
         creditsName2.SetActive(false);
+        creditsName3.SetActive(false);
 
-        // Mostrar botones de inicio
+        // Mostrar botones
         playButton.SetActive(true);
         creditsButton.SetActive(true);
         quitButton.SetActive(true);
@@ -69,10 +59,12 @@ public class MainMenu : MonoBehaviour
         playButton.SetActive(false);
         creditsButton.SetActive(false);
         quitButton.SetActive(false);
-        
+
+        // Mostrar botones
         backButton.SetActive(true);
         creditsName1.SetActive(true);
         creditsName2.SetActive(true);
+        creditsName3.SetActive(true);
     }
 
     public void EasyDifficulty()

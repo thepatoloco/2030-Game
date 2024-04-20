@@ -471,6 +471,7 @@ GameObject:
   m_Component:
   - component: {fileID: 848220328}
   - component: {fileID: 848220329}
+  - component: {fileID: 848220330}
   m_Layer: 5
   m_Name: TextDisplay
   m_TagString: Untagged
@@ -508,6 +509,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41a94c8afabf15d4e97fad6e7e7f611c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyText: {fileID: 1513241628}
+--- !u!114 &848220330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848220327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871f8e13885b84d9bb07fe21993bd907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   difficultyText: {fileID: 1513241628}
