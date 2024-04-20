@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ParagraphInput : RiskSubject
+public class ParagraphInput : RiskSubject, Observer
 {
     [SerializeField]
     private float targetDistanceAccept = 0.05f;
@@ -15,6 +15,7 @@ public class ParagraphInput : RiskSubject
     private TextMeshProUGUI toggleText;
 
     private bool isShowing = false;
+    private bool gameRunning = false;
 
 
     void Start()
@@ -41,6 +42,7 @@ public class ParagraphInput : RiskSubject
 
     public void toggleShow()
     {
+        if (!gameRunning) return;
         if (paperMovement.isMoving()) return;
 
         isShowing = !isShowing;
@@ -57,15 +59,19 @@ public class ParagraphInput : RiskSubject
         if (paragraphController.checkCorrect()) Debug.Log("Correct answer!");
     }
 
-
     private bool canInput()
     {
-        return isShowing && (!paperMovement.isMoving() || paperMovement.distanceFromTarget() < targetDistanceAccept);
+        return gameRunning && isShowing && (!paperMovement.isMoving() || paperMovement.distanceFromTarget() < targetDistanceAccept);
     }
-
 
     public override bool isActive()
     {
         return isShowing;
+    }
+
+
+    public void updated(Subject subject)
+    {
+        gameRunning = (subject as GameFacade).GetGameStatus() == GameStatus.Active;
     }
 }

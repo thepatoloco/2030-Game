@@ -71,14 +71,14 @@ public class MainMenu : MonoBehaviour
     {
         selectedDifficulty = "Easy";
         PlayerPrefs.SetString("selectedDifficulty", selectedDifficulty);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
     public void MediumDifficulty()
     {
         selectedDifficulty = "Medium";
         PlayerPrefs.SetString("selectedDifficulty", selectedDifficulty);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
 
     }
 
@@ -86,7 +86,7 @@ public class MainMenu : MonoBehaviour
     {
         selectedDifficulty = "Hard";
         PlayerPrefs.SetString("selectedDifficulty", selectedDifficulty);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
 
     }
 

@@ -24,15 +24,20 @@ public class EnemyController : MonoBehaviour, Observer
     private float lagTime = 0f;
     private int riskLevel = 0;
 
+    private bool gameRunning = false;
+
     private void Start()
     {
-        RiskController.singleton.subscribe(this);
-
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        RiskController.singleton.subscribe(this);
+        GameFacade.singleton.subscribe(this);
     }
 
     void Update()
     {
+        if (!gameRunning) return;
+
         if (lagTime > 0f && riskLevel > 0)
         {
             lagTime -= Time.deltaTime;
@@ -78,6 +83,17 @@ public class EnemyController : MonoBehaviour, Observer
 
     public void updated(Subject subject)
     {
-        riskLevel = (subject as RiskController).getRiskLevel();
+        if (subject is RiskController)
+        {
+            riskLevel = (subject as RiskController).getRiskLevel();
+        }
+        else if(subject is GameFacade)
+        {
+            gameRunning = (subject as GameFacade).GetGameStatus() == GameStatus.Active;
+        }
+        else
+        {
+            throw new System.Exception("Unknown subject class.");
+        }
     }
 }
