@@ -27,6 +27,15 @@ public class PaperMovement : MonoBehaviour
         StartCoroutine(moveObject(targetPosition));
     }
 
+    public void resetActivation()
+    {
+        StopAllCoroutines();
+        moving = false;
+        actualTarget = inactivePosition;
+
+        transform.position = inactivePosition;
+    }
+
     public bool isMoving()
     {
         return moving;

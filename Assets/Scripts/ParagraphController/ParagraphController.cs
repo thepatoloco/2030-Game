@@ -15,30 +15,30 @@ public class ParagraphController : MonoBehaviour
     private List<char> missingLetters = new List<char>();
     
 
-    private void Start()
-    {
-        SentenceSection[][] newParagraph = new SentenceSection[][]
-        {
-            new SentenceSection[]
-            {
-                new SentenceSection("Europe is the", false),
-                new SentenceSection("enemy", true),
-                new SentenceSection("of the nation.", false)
-            },
-            new SentenceSection[]
-            {
-                new SentenceSection("No matter what we did, this is still true.", false)
-            },
-            new SentenceSection[]
-            {
-                new SentenceSection("We will continue the", false),
-                new SentenceSection("battle", true),
-                new SentenceSection(".", false)
-            }
-        };
+    //private void Start()
+    //{
+    //    SentenceSection[][] newParagraph = new SentenceSection[][]
+    //    {
+    //        new SentenceSection[]
+    //        {
+    //            new SentenceSection("Europe is the", false),
+    //            new SentenceSection("enemy", true),
+    //            new SentenceSection("of the nation.", false)
+    //        },
+    //        new SentenceSection[]
+    //        {
+    //            new SentenceSection("No matter what we did, this is still true.", false)
+    //        },
+    //        new SentenceSection[]
+    //        {
+    //            new SentenceSection("We will continue the", false),
+    //            new SentenceSection("battle", true),
+    //            new SentenceSection(".", false)
+    //        }
+    //    };
 
-        setParagraph(newParagraph);
-    }
+    //    setParagraph(newParagraph);
+    //}
 
 
     public void setParagraph(SentenceSection[][] paragraph)
@@ -65,7 +65,7 @@ public class ParagraphController : MonoBehaviour
         }
 
         this.words = words;
-        this.missingLetters = new List<char>();
+        missingLetters = new List<char>();
     }
 
     public void addLetter(char letter)

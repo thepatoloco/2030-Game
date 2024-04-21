@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ParagraphInput : RiskSubject, Observer
+public class ParagraphInput : RiskSubject, RestartGame, GameStop
 {
     [SerializeField]
     private float targetDistanceAccept = 0.05f;
@@ -21,6 +21,10 @@ public class ParagraphInput : RiskSubject, Observer
     void Start()
     {
         paperMovement = GetComponent<PaperMovement>();
+
+        GameFacade.singleton.subscribeGameRestart(this);
+        GameFacade.singleton.subscribeGameLost(this);
+        GameFacade.singleton.subscribeGameWon(this);
     }
 
     void Update()
@@ -40,6 +44,41 @@ public class ParagraphInput : RiskSubject, Observer
     }
 
 
+    public void restartGame()
+    {
+        SentenceSection[][] newParagraph = new SentenceSection[][]
+        {
+            new SentenceSection[]
+            {
+                new SentenceSection("Europe is the", false),
+                new SentenceSection("enemy", true),
+                new SentenceSection("of the nation.", false)
+            },
+            new SentenceSection[]
+            {
+                new SentenceSection("No matter what we did, this is still true.", false)
+            },
+            new SentenceSection[]
+            {
+                new SentenceSection("We will continue the", false),
+                new SentenceSection("battle", true),
+                new SentenceSection(".", false)
+            }
+        };
+
+        isShowing = false;
+        toggleText.text = "Show";
+        gameRunning = true;
+        paperMovement.resetActivation();
+        paragraphController.setParagraph(newParagraph);
+        notify();
+    }
+
+    public void stopGame()
+    {
+        gameRunning = false;
+    }
+
     public void toggleShow()
     {
         if (!gameRunning) return;
@@ -56,7 +95,11 @@ public class ParagraphInput : RiskSubject, Observer
     {
         if (!canInput()) return;
 
-        if (paragraphController.checkCorrect()) Debug.Log("Correct answer!");
+        if (paragraphController.checkCorrect())
+        {
+            Debug.Log("Correct answer!");
+            GameFacade.singleton.gameWon();
+        }
     }
 
     private bool canInput()
@@ -67,11 +110,5 @@ public class ParagraphInput : RiskSubject, Observer
     public override bool isActive()
     {
         return isShowing;
-    }
-
-
-    public void updated(Subject subject)
-    {
-        gameRunning = (subject as GameFacade).GetGameStatus() == GameStatus.Active;
     }
 }

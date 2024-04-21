@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameFacade : MonoBehaviour, Subject
+public class GameFacade : MonoBehaviour
 {
     public static GameFacade singleton;
 
-    private GameStatus gameStatus = GameStatus.Inactive;
-    private GameDificulties gameDificulty = GameDificulties.Medium;
+    [SerializeField]
+    private DeadMenuController deadMenuController;
 
-    private List<Observer> observers = new List<Observer>();
+
+    private List<RestartGame> restartGames = new List<RestartGame>();
+    private List<GameStop> lostGames = new List<GameStop>();
+    private List<GameStop> wonGames = new List<GameStop>();
+
+    private GameDificulties gameDificulty = GameDificulties.Medium;
 
     private void Awake()
     {
@@ -36,38 +42,52 @@ public class GameFacade : MonoBehaviour, Subject
                 gameDificulty = GameDificulties.Medium;
                 break;
         }
-        gameStatus = GameStatus.Active;
 
-        notify();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        gameRestart();
     }
 
 
-    public void subscribe(Observer observer)
+    public void subscribeGameRestart(RestartGame restartGame)
     {
-        observers.Add(observer);
-    }
+        restartGames.Add(restartGame);
+    } 
 
-    public void unsubscribe(Observer observer)
+    public void gameRestart()
     {
-        observers.Remove(observer);
-    }
-
-    public void notify()
-    {
-        foreach (Observer obs in observers)
+        foreach (RestartGame restart in restartGames)
         {
-            obs.updated(this);
+            restart.restartGame();
         }
     }
 
-    public GameStatus GetGameStatus()
+    public void subscribeGameLost(GameStop stopGame)
     {
-        return gameStatus;
+        lostGames.Add(stopGame);
+    }
+
+    public void gameLost()
+    {
+        foreach (GameStop stop in lostGames)
+        {
+            stop.stopGame();
+        }
+    }
+
+    public void subscribeGameWon(GameStop stopGame)
+    {
+        wonGames.Add(stopGame);
+    }
+
+    public void gameWon()
+    {
+        foreach (GameStop stop in wonGames)
+        {
+            stop.stopGame();
+        }
+    }
+
+    public void openMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

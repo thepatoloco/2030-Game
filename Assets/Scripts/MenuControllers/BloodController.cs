@@ -15,6 +15,7 @@ public class BloodController : MonoBehaviour, Observer
 
     private float baseHeight = 0f;
     private Vector2 velocity = Vector2.zero;
+    private Vector2 activePosition = Vector2.zero;
 
     void Start()
     {
@@ -30,30 +31,35 @@ public class BloodController : MonoBehaviour, Observer
         if (!active)
         {
             StopAllCoroutines();
-            transform.position = new Vector3(0, 0);
+            rectTransform.anchoredPosition = Vector2.zero;
+            return;
         }
 
-        Vector2 targetPosition = new Vector2(0, -rectTransform.rect.height);
-
-        StartCoroutine(moveObject(targetPosition));
+        StartCoroutine(moveObject());
     }
 
-    private IEnumerator moveObject(Vector2 targetPosition)
+    private IEnumerator moveObject()
     {
-        while (Vector2.Distance(rectTransform.anchoredPosition, targetPosition) > 0.01f)
+        while (Vector2.Distance(rectTransform.anchoredPosition, activePosition) > 0.01f)
         {
-            Vector2 nextPosition = Vector2.SmoothDamp(rectTransform.anchoredPosition, targetPosition, ref velocity, transitionTime);
-            transform.position = nextPosition;
+            Vector2 nextPosition = Vector2.SmoothDamp(rectTransform.anchoredPosition, activePosition, ref velocity, transitionTime);
+            rectTransform.anchoredPosition = nextPosition;
             yield return null;
         }
 
-        transform.position = targetPosition;
+        rectTransform.anchoredPosition = activePosition;
         velocity = Vector2.zero;
+    }
+
+    public float getTransitionTime()
+    {
+        return transitionTime;
     }
 
 
     public void updated(Subject subject)
     {
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, baseHeight + aspectFitter.rect.height);
+        activePosition = new Vector2(0, -rectTransform.sizeDelta.y);
     }
 }

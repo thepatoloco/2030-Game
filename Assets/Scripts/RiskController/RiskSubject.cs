@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class RiskSubject : MonoBehaviour, Subject
+public abstract class RiskSubject : MonoBehaviour,  Subject
 {
     private List<Observer> observers = new List<Observer>();
 

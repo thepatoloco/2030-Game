@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OxigenController : RiskSubject
+public class OxigenController : RiskSubject, RestartGame, GameStop
 {
     [SerializeField]
     private float breathDuration = 5f;
@@ -22,6 +22,10 @@ public class OxigenController : RiskSubject
     void Start()
     {
         barBaseWidth = barTransform.rect.width;
+
+        GameFacade.singleton.subscribeGameRestart(this);
+        GameFacade.singleton.subscribeGameLost(this);
+        GameFacade.singleton.subscribeGameWon(this);
     }
 
     void Update()
@@ -73,6 +77,19 @@ public class OxigenController : RiskSubject
     {
         buttonHold = hold;
         notify();
+    }
+
+    public void restartGame()
+    {
+        breathLevel = 1f;
+        rechargeMultiplier = 1f;
+        canHold = true;
+    }
+
+    public void stopGame()
+    {
+        StopAllCoroutines();
+        canHold = false;
     }
 
 

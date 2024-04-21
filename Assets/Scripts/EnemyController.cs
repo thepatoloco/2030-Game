@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour, Observer
+public class EnemyController : MonoBehaviour, RestartGame, GameStop, Observer
 {
     [SerializeField]
     private Sprite[] sprites;
@@ -31,7 +31,9 @@ public class EnemyController : MonoBehaviour, Observer
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         RiskController.singleton.subscribe(this);
-        GameFacade.singleton.subscribe(this);
+        GameFacade.singleton.subscribeGameRestart(this);
+        GameFacade.singleton.subscribeGameLost(this);
+        GameFacade.singleton.subscribeGameWon(this);
     }
 
     void Update()
@@ -61,12 +63,26 @@ public class EnemyController : MonoBehaviour, Observer
     }
 
 
+    public void restartGame()
+    {
+        setStage(0);
+        lagTime = 0f;
+        actualTime = 0f;
+        gameRunning = true;
+    }
+
+    public void stopGame()
+    {
+        gameRunning = false;
+    }
+
     private void setStage(int newStage)
     {
         if (newStage < 0) return;
         if (newStage >= sprites.Length)
         {
             Debug.Log("You are dead!");
+            GameFacade.singleton.gameLost();
             return;
         }
 
@@ -86,10 +102,6 @@ public class EnemyController : MonoBehaviour, Observer
         if (subject is RiskController)
         {
             riskLevel = (subject as RiskController).getRiskLevel();
-        }
-        else if(subject is GameFacade)
-        {
-            gameRunning = (subject as GameFacade).GetGameStatus() == GameStatus.Active;
         }
         else
         {
