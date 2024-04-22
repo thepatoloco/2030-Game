@@ -13,32 +13,6 @@ public class ParagraphController : MonoBehaviour
     private SentenceSection[][] paragraph = new SentenceSection[0][];
     private List<WordController> words = new List<WordController>();
     private List<char> missingLetters = new List<char>();
-    
-
-    //private void Start()
-    //{
-    //    SentenceSection[][] newParagraph = new SentenceSection[][]
-    //    {
-    //        new SentenceSection[]
-    //        {
-    //            new SentenceSection("Europe is the", false),
-    //            new SentenceSection("enemy", true),
-    //            new SentenceSection("of the nation.", false)
-    //        },
-    //        new SentenceSection[]
-    //        {
-    //            new SentenceSection("No matter what we did, this is still true.", false)
-    //        },
-    //        new SentenceSection[]
-    //        {
-    //            new SentenceSection("We will continue the", false),
-    //            new SentenceSection("battle", true),
-    //            new SentenceSection(".", false)
-    //        }
-    //    };
-
-    //    setParagraph(newParagraph);
-    //}
 
 
     public void setParagraph(SentenceSection[][] paragraph)
@@ -66,6 +40,7 @@ public class ParagraphController : MonoBehaviour
 
         this.words = words;
         missingLetters = new List<char>();
+        missingLettersController.setMissingLetters(missingLetters);
     }
 
     public void addLetter(char letter)
