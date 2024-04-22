@@ -3138,11 +3138,12 @@ MonoBehaviour:
   - {fileID: -791989855, guid: b593c717ec8944ec6b9dd024060a6e9c, type: 3}
   - {fileID: 1409392389, guid: b593c717ec8944ec6b9dd024060a6e9c, type: 3}
   ticTime: 0.75
-  moveProbability: 0.09
-  backProbability: 0.15
-  movementLagMin: 3.5
-  movementLagMax: 6
+  moveProbability: 0.05
+  backProbability: 0.17
+  movementLagMin: 4
+  movementLagMax: 7
   stepsController: {fileID: 162335640}
+  stepSoundProbability: 0.7
 --- !u!1 &1030733983
 GameObject:
   m_ObjectHideFlags: 0
