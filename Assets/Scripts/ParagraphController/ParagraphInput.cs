@@ -46,31 +46,11 @@ public class ParagraphInput : RiskSubject, RestartGame, GameStop
 
     public void restartGame()
     {
-        SentenceSection[][] newParagraph = new SentenceSection[][]
-        {
-            new SentenceSection[]
-            {
-                new SentenceSection("Europe is the", false),
-                new SentenceSection("enemy", true),
-                new SentenceSection("of the nation.", false)
-            },
-            new SentenceSection[]
-            {
-                new SentenceSection("No matter what we did, this is still true.", false)
-            },
-            new SentenceSection[]
-            {
-                new SentenceSection("We will continue the", false),
-                new SentenceSection("battle", true),
-                new SentenceSection(".", false)
-            }
-        };
-
         isShowing = false;
         toggleText.text = "Show";
         gameRunning = true;
         paperMovement.resetActivation();
-        paragraphController.setParagraph(newParagraph);
+        paragraphController.setParagraph(sentenceOptions[Random.Range(0, sentenceOptions.Length)]);
         notify();
     }
 
@@ -111,4 +91,65 @@ public class ParagraphInput : RiskSubject, RestartGame, GameStop
     {
         return isShowing;
     }
+
+
+    private SentenceSection[][][] sentenceOptions = new SentenceSection[][][]
+    {
+        new SentenceSection[][]
+        {
+            new SentenceSection[]
+            {
+                new SentenceSection("Europe is the", false),
+                new SentenceSection("enemy", true),
+                new SentenceSection("of the nation.", false)
+            },
+            new SentenceSection[]
+            {
+                new SentenceSection("No matter what we did, this is still true.", false)
+            },
+            new SentenceSection[]
+            {
+                new SentenceSection("We will continue the", false),
+                new SentenceSection("battle", true),
+                new SentenceSection(".", false)
+            }
+        },
+        new SentenceSection[][]
+        {
+            new SentenceSection[]
+            {
+                new SentenceSection("We have an", false),
+                new SentenceSection("altered", true),
+                new SentenceSection("history.", false)
+            },
+            new SentenceSection[]
+            {
+                new SentenceSection("The ministry of truth is the culprit.", false)
+            },
+            new SentenceSection[]
+            {
+                new SentenceSection("Our past is a complete", false),
+                new SentenceSection("lie", true),
+                new SentenceSection(".", false)
+            }
+        },
+        new SentenceSection[][]
+        {
+            new SentenceSection[]
+            {
+                new SentenceSection("Our life is", false),
+                new SentenceSection("monitored", true)
+            },
+            new SentenceSection[]
+            {
+                new SentenceSection("by the though police.", false)
+            },
+            new SentenceSection[]
+            {
+                new SentenceSection("Speaking out is a", false),
+                new SentenceSection("crime", true),
+                new SentenceSection(".", false)
+            }
+        }
+    }; 
 }

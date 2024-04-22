@@ -223,6 +223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7607b488a194247d28d89c14f1e66bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleColor: {r: 0.6132076, g: 0.54635894, b: 0.42519584, a: 1}
+  idleColor: {r: 0.49019608, g: 0.49019608, b: 0.49019608, a: 1}
   correctColor: {r: 0.11668507, g: 0.7830189, b: 0, a: 1}
   textObject: {fileID: 3890430587034966264}

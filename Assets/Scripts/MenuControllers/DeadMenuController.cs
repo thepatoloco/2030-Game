@@ -9,8 +9,12 @@ public class DeadMenuController : MonoBehaviour, RestartGame, GameStop
     [SerializeField]
     private GameObject menuContent;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         GameFacade.singleton.subscribeGameRestart(this);
         GameFacade.singleton.subscribeGameLost(this);
     }
@@ -31,6 +35,10 @@ public class DeadMenuController : MonoBehaviour, RestartGame, GameStop
 
     IEnumerator openingMenu()
     {
+        audioSource.Play();
+
+        yield return new WaitForSeconds(1f);
+
         bloodController.setActivation(true);
 
         yield return new WaitForSeconds(bloodController.getTransitionTime() + 1f);

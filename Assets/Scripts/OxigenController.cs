@@ -11,6 +11,18 @@ public class OxigenController : RiskSubject, RestartGame, GameStop
     private float rechargePunish = 0.7f;
     [SerializeField]
     private RectTransform barTransform;
+    [SerializeField]
+    private AudioClip breathInClip;
+    [SerializeField]
+    private AudioClip breathOutClip;
+    [SerializeField]
+    private AudioSource hearthLoop;
+    [SerializeField]
+    private float minHearthVolume = 0.2f;
+    [SerializeField]
+    private float maxHearthVolume = 1f;
+
+    private AudioSource audioSource;
 
     private float barBaseWidth;
     private float breathLevel = 1f;
@@ -21,6 +33,8 @@ public class OxigenController : RiskSubject, RestartGame, GameStop
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         barBaseWidth = barTransform.rect.width;
 
         GameFacade.singleton.subscribeGameRestart(this);
@@ -30,6 +44,7 @@ public class OxigenController : RiskSubject, RestartGame, GameStop
 
     void Update()
     {
+        float hearthVolume = 0f;
         if (buttonHold && canHold)
         {
             breathLevel -= Time.deltaTime / breathDuration;
@@ -39,6 +54,8 @@ public class OxigenController : RiskSubject, RestartGame, GameStop
                 breathLevel = 0f;
                 StartCoroutine(cantHoldTimer());
             }
+
+            hearthVolume = ((maxHearthVolume - minHearthVolume) * (1f - breathLevel)) + minHearthVolume;
         }
         else if (breathLevel < 1f)
         {
@@ -48,6 +65,7 @@ public class OxigenController : RiskSubject, RestartGame, GameStop
         }
 
         showBreathLevel();
+        hearthLoop.volume = hearthVolume;
     }
 
 
@@ -61,6 +79,7 @@ public class OxigenController : RiskSubject, RestartGame, GameStop
         canHold = false;
         rechargeMultiplier = rechargePunish;
         notify();
+        playBreathSound(false);
 
         while (breathLevel < 1f)
         {
@@ -73,11 +92,23 @@ public class OxigenController : RiskSubject, RestartGame, GameStop
         breathLevel = 1f;
     }
 
+    private void playBreathSound(bool breathIn)
+    {
+        audioSource.clip = breathIn ? breathInClip : breathOutClip;
+        audioSource.Play();
+    }
+
     public void setHold(bool hold)
     {
         buttonHold = hold;
         notify();
+
+        if (canHold)
+        {
+            playBreathSound(hold);
+        }
     }
+
 
     public void restartGame()
     {

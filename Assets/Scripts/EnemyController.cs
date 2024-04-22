@@ -16,6 +16,10 @@ public class EnemyController : MonoBehaviour, RestartGame, GameStop, Observer
     private float movementLagMin = 3.5f;
     [SerializeField]
     private float movementLagMax = 6f;
+    [SerializeField]
+    private StepsController stepsController;
+    [SerializeField]
+    private float stepSoundProbability = 0.7f;
 
     private SpriteRenderer spriteRenderer;
 
@@ -85,6 +89,8 @@ public class EnemyController : MonoBehaviour, RestartGame, GameStop, Observer
             GameFacade.singleton.gameLost();
             return;
         }
+
+        if (Random.value < stepSoundProbability) stepsController.playStepsSound(Mathf.Min(enemyStage, newStage), newStage > enemyStage);
 
         enemyStage = newStage;
         spriteRenderer.sprite = sprites[enemyStage];
